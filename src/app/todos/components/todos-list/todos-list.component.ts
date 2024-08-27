@@ -42,6 +42,7 @@ export class TodosListComponent implements OnInit {
     const todoObj: Todo = {
       name: todo.name,
       completed: true,
+      _id: todo._id,
     };
     this.store.dispatch(new UpdateTodo(todo._id, todoObj));
   }

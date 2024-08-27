@@ -1,6 +1,6 @@
 import { Document } from 'mongoose';
 
-export interface Todo extends Document {
+export interface Todo  {
   _id: string;
   name: string;
   completed: boolean;
