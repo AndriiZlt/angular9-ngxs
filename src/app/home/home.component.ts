@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
-import { UtilsService } from '@shared/services/utils.service';
+import { Store } from '@ngxs/store';
+import { AddItemAction } from '@store/todos.actions';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
-  public showForm$ = this.utilsSvc.showAction$;
+  newItemName: string;
 
-  constructor(private utilsSvc: UtilsService) {}
+  constructor(private store: Store) {}
 
-  onShowForm(): void {
-    this.utilsSvc.showForm(true);
+  addItem(): void {
+    this.store.dispatch(new AddItemAction(this.newItemName));
+    this.newItemName = '';
   }
 }

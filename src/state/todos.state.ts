@@ -1,110 +1,74 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-
-import { tap } from 'rxjs/operators';
-
+import { Action, State, StateContext } from '@ngxs/store';
+import { TodoModel } from '@app/todos/todos-list.component';
 import {
-  SetSelectedTodo,
-  GetTodos,
-  AddTodo,
-  UpdateTodo,
-  DeleteTodo,
+  AddItemAction,
+  DeleteItemAction,
+  ToggleItemAction,
 } from './todos.actions';
 
-import { Todo } from '@serverAPI/todos/interfaces/todo.interface';
-import { TodoService } from '@app/todos/services/todo.service';
-
-export class TodosStateModel {
-  public todos: Todo[];
-  public selectedTodo: Todo;
+export interface TodoStateModel {
+  items: TodoModel[];
 }
 
-@State<TodosStateModel>({
-  name: 'todos',
+@State<TodoStateModel>({
+  name: 'todo',
   defaults: {
-    todos: [],
-    selectedTodo: null,
+    items: [],
   },
 })
 @Injectable()
-export class TodosState {
-  constructor(private readonly todoSvc: TodoService) {}
+export class TodoState {
+  @Action(AddItemAction)
+  addItem(ctx: StateContext<TodoStateModel>, action: AddItemAction) {
+    const { name } = action;
+    if (!name) {
+      return;
+    }
 
-  @Selector()
-  public static getTodoList({ todos }: TodosStateModel) {
-    return todos;
-  }
+    const state = ctx.getState();
 
-  @Selector()
-  public static getSelectedTodo({ selectedTodo }) {
-    return selectedTodo;
-  }
+    const todoItem: TodoModel = {
+      id: Math.floor(Math.random() * 1000),
+      isDone: false,
+      title: name,
+    };
 
-  @Action(GetTodos)
-  getTodos({ getState, setState }: StateContext<TodosStateModel>) {
-    return this.todoSvc.getAll().pipe(
-      tap((todos) => {
-        const state = getState();
-        setState({ ...state, todos });
-      })
-    );
-  }
-
-  @Action(AddTodo)
-  addTodo(
-    { getState, patchState }: StateContext<TodosStateModel>,
-    { payload }: AddTodo
-  ) {
-    return this.todoSvc.addTodo(payload).pipe(
-      tap((todo) => {
-        const state = getState();
-        patchState({
-          todos: [...state.todos, todo],
-        });
-      })
-    );
-  }
-
-  @Action(UpdateTodo)
-  updateTodo(
-    { getState, setState }: StateContext<TodosStateModel>,
-    { id, payload }: UpdateTodo
-  ) {
-    return this.todoSvc.updateTodo(id, payload).pipe(
-      tap((todo: Todo) => {
-        const state = getState();
-        const newState = state.todos.filter((todo) => todo._id !== id);
-        setState({ ...state, todos: [...newState, todo] });
-      })
-    );
-  }
-
-  @Action(DeleteTodo)
-  deleteTodo(
-    { getState, patchState }: StateContext<TodosStateModel>,
-    { id }: DeleteTodo
-  ) {
-    return this.todoSvc.deleteTodo(id).pipe(
-      tap(() => {
-        const state = getState();
-        const newState = state.todos.filter((todo) => todo._id !== id);
-        patchState({
-          ...state.todos,
-          todos: [...newState],
-        });
-      })
-    );
-  }
-
-  @Action(SetSelectedTodo)
-  setSelectedTodo(
-    { getState, setState }: StateContext<TodosStateModel>,
-    { payload }: SetSelectedTodo
-  ) {
-    const state = getState();
-    setState({
+    ctx.setState({
       ...state,
-      selectedTodo: payload,
+      items: [...state.items, todoItem],
     });
+
+    console.log('State:', ctx.getState());
+  }
+
+  @Action(ToggleItemAction)
+  toggleItem(ctx: StateContext<TodoStateModel>, action: ToggleItemAction) {
+    const state = ctx.getState();
+    const newTodoItems = state.items.map((item) => {
+      if (item.id === action.id) {
+        return {
+          ...item,
+          isDone: !item.isDone,
+        };
+      }
+      return item;
+    });
+
+    ctx.setState({
+      items: [...newTodoItems],
+    });
+  }
+
+  @Action(DeleteItemAction)
+  deleteItem(ctx: StateContext<TodoStateModel>, action: DeleteItemAction) {
+    console.log('DELETE', action.id);
+    const state = ctx.getState();
+
+    const newTodoItems = state.items.filter((item) => item.id != action.id);
+    ctx.setState({
+      items: [...newTodoItems],
+    });
+    console.log('State:', ctx.getState());
   }
 }
