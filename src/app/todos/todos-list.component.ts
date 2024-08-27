@@ -23,11 +23,15 @@ export interface TodoModel {
 export class TodoListComponent {
   @Select(TodoSelectors.todoItems) todoItems$!: Observable<TodoModel[]>;
 
-  constructor(private store: Store, private utilsSvc: UtilsService) {}
+  constructor(private store: Store) {
+  }
+
+  trackById(index: number, item: TodoModel): number {
+    return item.id;
+  }
 
   onEdit(todo: TodoModel): void {
     this.store.dispatch(new ToggleItemAction(todo.id));
-    this.utilsSvc.showForm(true);
   }
 
   onDelete(id: number): void {

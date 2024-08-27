@@ -8,8 +8,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let todo of todos; trackBy: trackByFunction">
-        <td [ngClass]="{ 'is-completed': todo.completed }">{{ todo.name }}</td>
+      <tr *ngFor="let todo of todoItems$ | async; trackBy: trackById">
+        <td [ngClass]="{ 'is-completed': todo.isDone }">{{ todo.title }}</td>
         <td>
           <!-- <button
             [disabled]="todo.completed"
@@ -30,7 +30,7 @@
         <td>
           <input
             type="checkbox"
-            [disabled]="todo.completed"
+            [checked]="todo.isDone"
             (click)="onEdit(todo)"
           />
         </td>

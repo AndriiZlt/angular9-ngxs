@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule } from '@ngxs/store';
-
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { TodoState } from '@store/todos.state';
 import { environment } from '@envs/environment.prod';
 @NgModule({
@@ -16,7 +16,7 @@ import { environment } from '@envs/environment.prod';
     }),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
-    // NgxsStoragePluginModule.forRoot({ key: ['todo'] }),
+    NgxsStoragePluginModule.forRoot({ key: ['todo'] }),
   ],
 })
 export class StateModule {}
