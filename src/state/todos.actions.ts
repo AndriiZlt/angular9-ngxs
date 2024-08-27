@@ -1,24 +1,14 @@
-import { Todo } from '@serverAPI/todos/interfaces/todo.interface';
-export class GetTodos {
-  static readonly type = '[Todos] Get';
+export class AddItemAction{
+  static readonly type = '[TODO page] Add item';
+  constructor(public name:string){}
 }
 
-export class AddTodo {
-  static readonly type = '[Todos] Add';
-  constructor(public payload: Todo) {}
+export class ToggleItemAction{
+  static readonly type = '[TODO page] Toggle item';
+  constructor(public id:number){}
 }
 
-export class UpdateTodo {
-  static readonly type = '[Todos] Update';
-  constructor(public id: string, public payload: Todo) {}
-}
-
-export class DeleteTodo {
-  static readonly type = '[Todos] Delete';
-  constructor(public id: string) {}
-}
-
-export class SetSelectedTodo {
-  static readonly type = '[Todos] Set';
-  constructor(public payload: Todo) {}
+export class DeleteItemAction{
+  static readonly type = '[TODO page] Delete item';
+  constructor(public id:number){}
 }

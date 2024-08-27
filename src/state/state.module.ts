@@ -5,13 +5,13 @@ import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsModule } from '@ngxs/store';
 
-import { TodosState } from '@store/todos.state';
+import { TodoState } from '@store/todos.state';
 import { environment } from '@envs/environment.prod';
 @NgModule({
   declarations: [],
   imports: [
     CommonModule,
-    NgxsModule.forRoot([TodosState], {
+    NgxsModule.forRoot([TodoState], {
       developmentMode: !environment.production,
     }),
     NgxsLoggerPluginModule.forRoot(),

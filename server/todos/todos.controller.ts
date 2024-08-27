@@ -20,10 +20,10 @@ export class TodosController {
     return this.todosSvc.all();
   }
 
-  @Post()
-  async add(@Body() todo: CreateTodoDto): Promise<Todo> {
-    return this.todosSvc.add(todo);
-  }
+  // @Post()
+  // async add(@Body() todo: CreateTodoDto): Promise<Todo> {
+  //   return this.todosSvc.add(todo);
+  // }
 
   @Put(':id')
   async update(

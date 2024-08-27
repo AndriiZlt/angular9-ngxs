@@ -8,6 +8,7 @@ import { TodosListComponent } from './components/todos-list/todos-list.component
   declarations: [TodosListComponent],
   imports: [
     CommonModule
-  ]
+  ],
+  exports:[TodosListComponent]
 })
 export class TodosModule { }

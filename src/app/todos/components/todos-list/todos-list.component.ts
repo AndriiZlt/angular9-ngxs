@@ -1,51 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-
-import { Observable } from 'rxjs';
-import { TodosState } from '@store/todos.state';
-import { Select, Store } from '@ngxs/store';
-
+import { Component } from '@angular/core';
+import { Select, StateContext, Store } from '@ngxs/store';
 import {
-  GetTodos,
-  SetSelectedTodo,
-  DeleteTodo,
-  UpdateTodo,
-} from '@store/todos.actions';
-import { Todo } from '@serverAPI/todos/interfaces/todo.interface';
-import { UtilsService } from '@shared/services/utils.service';
+  AddItemAction,
+  DeleteItemAction,
+  ToggleItemAction,
+} from '../../../../state/todos.actions';
+import { TodoStateModel } from '@store/todos.state';
+import { TodoSelectors } from '@store/todo-selectors';
+import { Observable } from 'rxjs';
+import { UtilsService } from '@app/shared/services/utils.service';
+
+export interface TodoModel {
+  id: number;
+  isDone: boolean;
+  title: string;
+}
 @Component({
   selector: 'app-todos-list',
   templateUrl: './todos-list.component.html',
   styleUrls: ['./todos-list.component.scss'],
 })
-export class TodosListComponent implements OnInit {
-  @Select(TodosState.getTodoList) todos$: Observable<Todo[]>;
+export class TodosListComponent {
+  @Select(TodoSelectors.todoItems) todoItems$!: Observable<TodoModel[]>;
 
   constructor(private store: Store, private utilsSvc: UtilsService) {}
 
-  ngOnInit(): void {
-    this.store.dispatch(new GetTodos());
-  }
-
-  onEdit(todo: Todo): void {
-    this.store.dispatch(new SetSelectedTodo(todo));
+  onEdit(todo: TodoModel): void {
+    this.store.dispatch(new ToggleItemAction(todo.id));
     this.utilsSvc.showForm(true);
   }
 
-  onDelete(id: string): void {
+  onDelete(id: number): void {
     const confirmation = confirm('Are you sure?');
     if (confirmation) {
-      this.store.dispatch(new DeleteTodo(id));
+      this.store.dispatch(new DeleteItemAction(id));
     }
   }
 
-  onCompletedTodo(todo: Todo): void {
-    const todoObj: Todo = {
-      name: todo.name,
-      completed: true,
-      _id: todo._id,
-    };
-    this.store.dispatch(new UpdateTodo(todo._id, todoObj));
-  }
+  // onCompletedTodo(todo: TodoModel): void {
+  //   const todoObj: TodoModel = {
+  //     title: todo.title,
+  //     completed: true,
+  //     _id: todo._id,
+  //   };
+  //   this.store.dispatch(new UpdateTodo(todo._id, todoObj));
+  // }
 
   trackByFunction({ item }) {
     if (!item) return null;

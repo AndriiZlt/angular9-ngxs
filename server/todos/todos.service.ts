@@ -12,10 +12,10 @@ export class TodosService {
     return this.todoModel.find();
   }
 
-  async add(todo: CreateTodoDto): Promise<Todo> {
-    const createTodo = new this.todoModel(todo);
-    return createTodo.save();
-  }
+  // async add(todo: CreateTodoDto): Promise<Todo> {
+  //   const createTodo = new this.todoModel(todo);
+  //   return createTodo.save();
+  // }
 
   async update(id: string, todo: CreateTodoDto): Promise<Todo> {
     return this.todoModel.findByIdAndUpdate(id, todo, { new: true });
