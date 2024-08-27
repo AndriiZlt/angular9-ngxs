@@ -1,5 +1,5 @@
 import { Selector } from '@ngxs/store';
-import { TodoModel } from '@app/shared/form/form.component';
+import { TodoModel } from '@app/todos/todos-list.component';
 import { TodoState, TodoStateModel } from './todos.state';
 
 export class TodoSelectors {

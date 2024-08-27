@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, State, StateContext } from '@ngxs/store';
-import { TodoModel } from '@app/shared/form/form.component';
+import { TodoModel } from '@app/todos/todos-list.component';
 import {
   AddItemAction,
   DeleteItemAction,
