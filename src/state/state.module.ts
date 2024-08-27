@@ -16,6 +16,7 @@ import { environment } from '@envs/environment.prod';
     }),
     NgxsLoggerPluginModule.forRoot(),
     NgxsReduxDevtoolsPluginModule.forRoot(),
+    // NgxsStoragePluginModule.forRoot({ key: ['todo'] }),
   ],
 })
 export class StateModule {}

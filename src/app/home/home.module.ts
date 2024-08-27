@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormComponent } from '@shared/form/form.component';
 import { HeaderComponent } from '@shared/header/header.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { TodosListComponent } from '@app/todos/components/todos-list/todos-list.component';
-import { TodosModule } from '@serverAPI/todos/todos.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
+import { MaterialModule } from '@app/shared/material-module';
 
 @NgModule({
-  declarations: [FormComponent, HeaderComponent, TodosListComponent],
-  imports: [CommonModule, ReactiveFormsModule],
-  exports: [FormComponent, HeaderComponent],
+  declarations: [HeaderComponent],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MaterialModule],
+  exports: [HeaderComponent],
 })
 export class HomeModule {}

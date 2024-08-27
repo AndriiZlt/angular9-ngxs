@@ -4,8 +4,8 @@ import {
   AddItemAction,
   DeleteItemAction,
   ToggleItemAction,
-} from '../../../../state/todos.actions';
-import { TodoStateModel } from '@store/todos.state';
+} from '../../state/todos.actions';
+
 import { TodoSelectors } from '@store/todo-selectors';
 import { Observable } from 'rxjs';
 import { UtilsService } from '@app/shared/services/utils.service';
@@ -16,11 +16,11 @@ export interface TodoModel {
   title: string;
 }
 @Component({
-  selector: 'app-todos-list',
+  selector: 'app-todo-list',
   templateUrl: './todos-list.component.html',
   styleUrls: ['./todos-list.component.scss'],
 })
-export class TodosListComponent {
+export class TodoListComponent {
   @Select(TodoSelectors.todoItems) todoItems$!: Observable<TodoModel[]>;
 
   constructor(private store: Store, private utilsSvc: UtilsService) {}
