@@ -62,6 +62,7 @@ export class TodoState {
 
   @Action(DeleteItemAction)
   deleteItem(ctx: StateContext<TodoStateModel>, action: DeleteItemAction) {
+    console.log('DELETE', action.id);
     const state = ctx.getState();
 
     const newTodoItems = state.items.filter((item) => item.id != action.id);
